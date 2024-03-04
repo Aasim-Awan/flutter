@@ -257,10 +257,17 @@ class FakeStdin extends Fake implements Stdin {
 
   bool _echoMode = true;
 
+<<<<<<< HEAD
   @override
   bool get echoMode => _echoMode;
 
   @override
+=======
+  @override
+  bool get echoMode => _echoMode;
+
+  @override
+>>>>>>> 7482962148e8d758338d8a28f589f317e1e42ba4
   set echoMode(bool mode) {
     _echoMode = mode;
     if (echoModeCallback != null) {
@@ -462,6 +469,7 @@ class TestFeatureFlags implements FeatureFlags {
     this.isFlutterWebWasmEnabled = false,
     this.isCliAnimationEnabled = true,
     this.isNativeAssetsEnabled = false,
+    this.isPreviewDeviceEnabled = false,
   });
 
   @override
@@ -498,30 +506,23 @@ class TestFeatureFlags implements FeatureFlags {
   final bool isNativeAssetsEnabled;
 
   @override
+  final bool isPreviewDeviceEnabled;
+
+  @override
   bool isEnabled(Feature feature) {
-    switch (feature) {
-      case flutterWebFeature:
-        return isWebEnabled;
-      case flutterLinuxDesktopFeature:
-        return isLinuxEnabled;
-      case flutterMacOSDesktopFeature:
-        return isMacOSEnabled;
-      case flutterWindowsDesktopFeature:
-        return isWindowsEnabled;
-      case flutterAndroidFeature:
-        return isAndroidEnabled;
-      case flutterIOSFeature:
-        return isIOSEnabled;
-      case flutterFuchsiaFeature:
-        return isFuchsiaEnabled;
-      case flutterCustomDevicesFeature:
-        return areCustomDevicesEnabled;
-      case cliAnimation:
-        return isCliAnimationEnabled;
-      case nativeAssets:
-        return isNativeAssetsEnabled;
-    }
-    return false;
+    return switch (feature) {
+      flutterWebFeature => isWebEnabled,
+      flutterLinuxDesktopFeature => isLinuxEnabled,
+      flutterMacOSDesktopFeature => isMacOSEnabled,
+      flutterWindowsDesktopFeature => isWindowsEnabled,
+      flutterAndroidFeature => isAndroidEnabled,
+      flutterIOSFeature => isIOSEnabled,
+      flutterFuchsiaFeature => isFuchsiaEnabled,
+      flutterCustomDevicesFeature => areCustomDevicesEnabled,
+      cliAnimation => isCliAnimationEnabled,
+      nativeAssets => isNativeAssetsEnabled,
+      _ => false,
+    };
   }
 }
 
